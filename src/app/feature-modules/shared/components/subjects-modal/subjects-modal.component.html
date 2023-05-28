@@ -1,0 +1,27 @@
+<nz-modal
+  *ngIf="entity"
+  [(nzVisible)]="show"
+  [nzTitle]="entity.name + ' tantárgyai'"
+  nzClosable="false"
+  nzCentered
+  nzWidth="70%"
+>
+  <ng-container *nzModalContent>
+    <nz-select
+      [(ngModel)]="selectedSemester"
+      (ngModelChange)="onSemesterChanged($event)"
+    >
+      <nz-option nzValue="all" nzLabel="Összes"></nz-option>
+      <nz-option
+        *ngFor="let semester of semesters"
+        [nzValue]="semester.id"
+        [nzLabel]="semester.name"
+      ></nz-option>
+    </nz-select>
+    <app-neptun-table [columns]="subjectColumns" [items]="filteredSubjects">
+    </app-neptun-table>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="primary" (click)="onOk()">Ok</button>
+  </ng-template>
+</nz-modal>

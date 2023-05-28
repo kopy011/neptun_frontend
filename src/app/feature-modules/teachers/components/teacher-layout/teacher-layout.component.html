@@ -1,0 +1,13 @@
+<app-neptun-table
+  *ngIf="teachers"
+  [items]="teachers"
+  [columns]="teacherColumns"
+  [actions]="['subjects']"
+  (subjectsAction)="onUpdate($event)"
+></app-neptun-table>
+<app-subjects-modal
+  *ngIf="editedTeacher"
+  [entity]="editedTeacher"
+  [show]="showModal"
+  (okAction)="onOk()"
+></app-subjects-modal>
