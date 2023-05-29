@@ -21,14 +21,30 @@
           {{ item[key.value] ?? "" }}
         </span>
       </td>
-      <td *ngIf="actions.includes('subjects')" nzAlign="center">
+      <td nzAlign="center" *ngIf="actions.length > 0" id="actions-td">
         <button
+          *ngIf="actions.includes('subjects')"
           nz-button
+          nz-tooltip
           nzType="primary"
           nzShape="circle"
           (click)="onSubjects(item)"
+          nzTooltipTitle="Tantárgyak"
+          nzTooltipPlacement="bottom"
         >
           <span nz-icon nzType="file" nzTheme="fill"></span>
+        </button>
+        <button
+          *ngIf="actions.includes('edit')"
+          nz-button
+          nz-tooltip
+          nzType="primary"
+          nzShape="circle"
+          (click)="onEdit(item)"
+          nzTooltipTitle="Módosítás"
+          nzTooltipPlacement="bottom"
+        >
+          <span nz-icon nzType="edit" nzTheme="fill"></span>
         </button>
       </td>
     </tr>

@@ -15,8 +15,13 @@ export class NeptunTableComponent {
   @Input() actions: Array<TableActions> = [];
 
   @Output() subjectsAction = new EventEmitter();
+  @Output() editAction = new EventEmitter();
 
   onSubjects(item: any): void {
     this.subjectsAction.emit(item);
+  }
+
+  onEdit(item: any): void {
+    this.editAction.emit(item);
   }
 }

@@ -1,1 +1,1 @@
-export type TableActions = 'subjects';
+export type TableActions = 'subjects' | 'edit';

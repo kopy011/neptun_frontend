@@ -5,6 +5,8 @@ import { selectTeachers } from '../../store/teachers.selectors';
 import { Teacher } from 'src/app/models/Teacher';
 import { Column } from 'src/app/models/components/Column';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Classification } from 'src/app/models/enums/Classification';
+import { TableActions } from 'src/app/models/enums/TableActions';
 
 @UntilDestroy()
 @Component({
@@ -54,21 +56,41 @@ export class TeacherLayoutComponent implements OnInit {
 
   teachers$ = this.store.pipe(select(selectTeachers));
   teachers?: Array<Teacher>;
-  editedTeacher?: any;
-  showModal = false;
+  editedTeacher?: Teacher;
 
-  openModal(teacher: Teacher): void {
-    this.editedTeacher = teacher;
-    this.showModal = true;
+  tableActions: Array<TableActions> = ['edit', 'subjects'];
+
+  showSubjectsModal = false;
+  showEditModal = false;
+
+  onNewTeacherAction(): void {
+    this.editedTeacher = {
+      neptunCode: '',
+      name: '',
+      email: '',
+      classification: '' as Classification,
+    } as Teacher;
+    this.showEditModal = true;
   }
 
-  onUpdate(teacher: Teacher) {
-    this.editedTeacher = teacher;
-    this.showModal = true;
-  }
-
-  onOk() {
+  onEditClose(): void {
     this.editedTeacher = undefined;
-    this.showModal = false;
+    this.showEditModal = false;
+    this.store.dispatch(teachersRequestedAction());
+  }
+
+  onEditAction(teacher: Teacher): void {
+    this.editedTeacher = teacher;
+    this.showEditModal = true;
+  }
+
+  onSubjectsAction(teacher: Teacher): void {
+    this.editedTeacher = teacher;
+    this.showSubjectsModal = true;
+  }
+
+  onSubjectsOk(): void {
+    this.editedTeacher = undefined;
+    this.showSubjectsModal = false;
   }
 }

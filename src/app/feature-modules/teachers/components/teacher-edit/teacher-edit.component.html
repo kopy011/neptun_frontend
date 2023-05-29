@@ -1,0 +1,73 @@
+<nz-modal
+  *ngIf="teacher"
+  [(nzVisible)]="show"
+  [nzTitle]="
+    !teacher.id
+      ? 'Oktató létrehozása'
+      : teacher.name + ' adatainak szerkesztése'
+  "
+  nzClosable="false"
+  nzCentered
+  nzWidth="30%"
+  (nzOnOk)="onOk()"
+  (nzOnCancel)="onCancel()"
+  nzOkText="Mentés"
+  nzCancelText="Mégse"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="teacherForm">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="neptunCode"
+              placeholder="Neptun kód"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="name"
+              placeholder="Név"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="email"
+              placeholder="Email cím"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <nz-select
+              nzPlaceHolder="Beosztás"
+              formControlName="classification"
+            >
+              <nz-option
+                *ngFor="let classification of classifications"
+                [nzValue]="classification"
+                [nzLabel]="classification"
+              ></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

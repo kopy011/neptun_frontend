@@ -5,15 +5,25 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { IconDefinition } from '@ant-design/icons-angular';
-import { FileFill, HomeFill } from '@ant-design/icons-angular/icons';
+import {
+  FileFill,
+  HomeFill,
+  PlusOutline,
+  EditFill,
+} from '@ant-design/icons-angular/icons';
 import { SubjectsModalComponent } from './components/subjects-modal/subjects-modal.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { FormsModule } from '@angular/forms';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
-const icons: IconDefinition[] = [FileFill, HomeFill];
+const icons: IconDefinition[] = [FileFill, HomeFill, PlusOutline, EditFill];
 
 @NgModule({
   declarations: [NeptunTableComponent, SubjectsModalComponent],
@@ -26,6 +36,12 @@ const icons: IconDefinition[] = [FileFill, HomeFill];
     NzLayoutModule,
     NzSelectModule,
     FormsModule,
+    NzToolTipModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    NzInputModule,
+    NzTypographyModule,
+    NzGridModule,
   ],
   exports: [
     NeptunTableComponent,
@@ -33,6 +49,16 @@ const icons: IconDefinition[] = [FileFill, HomeFill];
     NzLayoutModule,
     NzMenuModule,
     NzIconModule,
+    NzModalModule,
+    NzButtonModule,
+    NzToolTipModule,
+    NzFormModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NzInputModule,
+    NzSelectModule,
+    NzTypographyModule,
+    NzGridModule,
   ],
 })
 export class SharedModule {}

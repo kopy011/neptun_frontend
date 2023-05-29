@@ -1,13 +1,40 @@
+<div nz-row nzJustify="space-between">
+  <div nz-col><h1 nz-typography>Oktatók</h1></div>
+  <div nz-col id="new-button-col">
+    <button
+      nz-button
+      nz-tooltip
+      id="new-button"
+      nzType="primary"
+      nzShape="circle"
+      nzTooltipTitle="Új felvétele"
+      nzTooltipPlacement="bottom"
+      (click)="onNewTeacherAction()"
+    >
+      <span nz-icon nzType="plus" nzTheme="outline"></span>
+    </button>
+  </div>
+</div>
+
 <app-neptun-table
   *ngIf="teachers"
   [items]="teachers"
   [columns]="teacherColumns"
-  [actions]="['subjects']"
-  (subjectsAction)="onUpdate($event)"
-></app-neptun-table>
+  [actions]="tableActions"
+  (subjectsAction)="onSubjectsAction($event)"
+  (editAction)="onEditAction($event)"
+>
+</app-neptun-table>
 <app-subjects-modal
   *ngIf="editedTeacher"
   [entity]="editedTeacher"
-  [show]="showModal"
-  (okAction)="onOk()"
+  [show]="showSubjectsModal"
+  (okAction)="onSubjectsOk()"
 ></app-subjects-modal>
+<app-teacher-edit
+  *ngIf="editedTeacher"
+  [teacher]="editedTeacher"
+  [show]="showEditModal"
+  (closeAction)="onEditClose()"
+>
+</app-teacher-edit>

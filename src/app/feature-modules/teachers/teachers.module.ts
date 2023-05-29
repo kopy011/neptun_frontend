@@ -8,10 +8,10 @@ import { teachersFeatureKey, teachersRecucer } from './store/teachers.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { TeacherEffects } from './store/teachers.effects';
 import { SharedModule } from '../shared/shared.module';
-import { NeptunTableComponent } from '../shared/components/neptun-table/neptun-table.component';
+import { TeacherEditComponent } from './components/teacher-edit/teacher-edit.component';
 
 @NgModule({
-  declarations: [TeacherLayoutComponent],
+  declarations: [TeacherLayoutComponent, TeacherEditComponent],
   imports: [
     CommonModule,
     TeachersRoutingModule,
