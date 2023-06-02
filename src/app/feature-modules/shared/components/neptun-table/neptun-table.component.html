@@ -46,6 +46,18 @@
         >
           <span nz-icon nzType="edit" nzTheme="fill"></span>
         </button>
+        <button
+          *ngIf="actions.includes('delete')"
+          nz-button
+          nz-tooltip
+          nzType="primary"
+          nzShape="circle"
+          (click)="onDelete(item)"
+          nzTooltipTitle="Törlés"
+          nzTooltipPlacement="bottom"
+        >
+          <span nz-icon nzType="delete" nzTheme="fill"></span>
+        </button>
       </td>
     </tr>
   </tbody>

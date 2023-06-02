@@ -2,3 +2,8 @@ nz-select {
   margin-bottom: 5vh;
   width: 30vh;
 }
+
+#subjects-select {
+  width: 35vh;
+  margin-right: 20px;
+}

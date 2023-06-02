@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { TeacherEffects } from './store/teachers.effects';
 import { SharedModule } from '../shared/shared.module';
 import { TeacherEditComponent } from './components/teacher-edit/teacher-edit.component';
+import { SubjectsModule } from '../subjects/subjects.module';
 
 @NgModule({
   declarations: [TeacherLayoutComponent, TeacherEditComponent],
@@ -18,6 +19,7 @@ import { TeacherEditComponent } from './components/teacher-edit/teacher-edit.com
     StoreModule.forFeature(teachersFeatureKey, teachersRecucer),
     EffectsModule.forFeature([TeacherEffects]),
     SharedModule,
+    SubjectsModule,
   ],
 })
 export class TeachersModule {}

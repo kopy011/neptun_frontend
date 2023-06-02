@@ -10,6 +10,7 @@ import {
   HomeFill,
   PlusOutline,
   EditFill,
+  DeleteFill,
 } from '@ant-design/icons-angular/icons';
 import { SubjectsModalComponent } from './components/subjects-modal/subjects-modal.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -23,7 +24,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
-const icons: IconDefinition[] = [FileFill, HomeFill, PlusOutline, EditFill];
+const icons: IconDefinition[] = [
+  FileFill,
+  HomeFill,
+  PlusOutline,
+  EditFill,
+  DeleteFill,
+];
 
 @NgModule({
   declarations: [NeptunTableComponent, SubjectsModalComponent],

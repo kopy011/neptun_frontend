@@ -16,6 +16,7 @@ export class NeptunTableComponent {
 
   @Output() subjectsAction = new EventEmitter();
   @Output() editAction = new EventEmitter();
+  @Output() deleteAction = new EventEmitter();
 
   onSubjects(item: any): void {
     this.subjectsAction.emit(item);
@@ -23,5 +24,9 @@ export class NeptunTableComponent {
 
   onEdit(item: any): void {
     this.editAction.emit(item);
+  }
+
+  onDelete(item: any): void {
+    this.deleteAction.emit(item);
   }
 }

@@ -9,6 +9,13 @@ const routes: Routes = [
         (m) => m.TeachersModule
       ),
   },
+  {
+    path: 'subjects',
+    loadChildren: () =>
+      import('./feature-modules/subjects/subjects.module').then(
+        (m) => m.SubjectsModule
+      ),
+  },
 ];
 
 @NgModule({

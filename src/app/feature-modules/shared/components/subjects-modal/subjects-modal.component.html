@@ -7,21 +7,69 @@
   nzWidth="70%"
 >
   <ng-container *nzModalContent>
-    <nz-select
-      [(ngModel)]="selectedSemester"
-      (ngModelChange)="onSemesterChanged($event)"
+    <div nz-row nzJustify="space-between">
+      <div nz-col>
+        <nz-select
+          [(ngModel)]="selectedSemester"
+          (ngModelChange)="onSemesterChanged($event)"
+        >
+          <nz-option nzValue="all" nzLabel="Összes"></nz-option>
+          <nz-option
+            *ngFor="let semester of semesters"
+            [nzValue]="semester.id"
+            [nzLabel]="semester.name"
+          ></nz-option>
+        </nz-select>
+      </div>
+      <div nz-col>
+        <div nz-row>
+          <div nz-col>
+            <span nz-typography><strong>Felvehető tantárgyak: </strong></span>
+            <nz-select
+              [(ngModel)]="selectedSubjects"
+              nzPlaceHolder="Válassza ki a felvenni kívánt tantárgyakat"
+              nzMode="multiple"
+              [nzMaxTagCount]="2"
+              [nzMaxTagPlaceholder]="tagPlaceHolder"
+              [nzShowArrow]="true"
+              id="subjects-select"
+            >
+              <nz-option
+                *ngFor="let subject of allFreeSubjects"
+                [nzLabel]="subject.code"
+                [nzValue]="subject.id"
+              >
+              </nz-option>
+              <ng-template #tagPlaceHolder let-selectedList>
+                és {{ selectedList.length }} további
+              </ng-template>
+            </nz-select>
+            <button
+              nz-button
+              nzType="primary"
+              [disabled]="selectedSubjects.length === 0"
+              (click)="onSubjectsSave()"
+            >
+              Hozzáadás
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-neptun-table
+      [columns]="subjectColumns"
+      [items]="filteredSubjects"
+      [actions]="['delete']"
+      (deleteAction)="onDelete($event)"
     >
-      <nz-option nzValue="all" nzLabel="Összes"></nz-option>
-      <nz-option
-        *ngFor="let semester of semesters"
-        [nzValue]="semester.id"
-        [nzLabel]="semester.name"
-      ></nz-option>
-    </nz-select>
-    <app-neptun-table [columns]="subjectColumns" [items]="filteredSubjects">
     </app-neptun-table>
   </ng-container>
   <ng-template [nzModalFooter]>
-    <button nz-button nzType="primary" (click)="onOk()">Ok</button>
+    <button nz-button *ngIf="this.dirty" nzType="default" (click)="onCancel()">
+      Mégse
+    </button>
+    <button nz-button nzType="primary" (click)="onOk()">
+      {{ this.dirty ? "Mentés" : "Ok" }}
+    </button>
   </ng-template>
 </nz-modal>
