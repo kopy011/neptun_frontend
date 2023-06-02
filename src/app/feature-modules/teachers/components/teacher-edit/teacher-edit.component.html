@@ -9,15 +9,16 @@
   nzClosable="false"
   nzCentered
   nzWidth="30%"
-  (nzOnOk)="onOk()"
-  (nzOnCancel)="onCancel()"
-  nzOkText="Mentés"
-  nzCancelText="Mégse"
 >
   <ng-container *nzModalContent>
-    <form nz-form [formGroup]="teacherForm">
+    <form
+      nz-form
+      [formGroup]="teacherForm"
+      id="teacherForm"
+      (ngSubmit)="onOk()"
+    >
       <nz-form-item>
-        <nz-form-control>
+        <nz-form-control nzErrorTip="A megadott neptun kód nem megfelelő!">
           <nz-input-group>
             <input
               type="text"
@@ -29,7 +30,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control>
+        <nz-form-control nzErrorTip="A megadott név nem megfelelő!">
           <nz-input-group>
             <input
               type="text"
@@ -41,7 +42,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control>
+        <nz-form-control nzErrorTip="A megadott email nem megfelelő!">
           <nz-input-group>
             <input
               type="text"
@@ -53,7 +54,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-control>
+        <nz-form-control nzErrorTip="Beosztás megadása kötelező!">
           <nz-input-group>
             <nz-select
               nzPlaceHolder="Beosztás"
@@ -70,4 +71,15 @@
       </nz-form-item>
     </form>
   </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="onCancel()">Mégse</button>
+    <button
+      nz-button
+      nzType="primary"
+      form="teacherForm"
+      [disabled]="!teacherForm.valid"
+    >
+      Mentés
+    </button>
+  </ng-template>
 </nz-modal>

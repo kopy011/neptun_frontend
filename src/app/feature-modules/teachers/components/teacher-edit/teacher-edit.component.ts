@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Teacher } from 'src/app/models/Teacher';
 import { Classification } from 'src/app/models/enums/Classification';
@@ -8,6 +8,7 @@ import {
   teacherUpdateAction,
   teacherUpdatedAction,
 } from '../../store/teachers.actions';
+import { NeptunCodeValidator } from 'src/app/validators/neptunCode.validator';
 
 @Component({
   selector: 'app-teacher-edit',
@@ -20,10 +21,22 @@ export class TeacherEditComponent implements OnInit {
   ngOnInit(): void {
     this.teacherForm = this.formBuilder.group({
       id: [this.teacher.id ? this.teacher.id : undefined],
-      neptunCode: [this.teacher.id ? this.teacher.neptunCode : ''],
-      name: [this.teacher.id ? this.teacher.name : ''],
-      email: [this.teacher.id ? this.teacher.email : ''],
-      classification: [this.teacher.id ? this.teacher.classification : ''],
+      neptunCode: [
+        this.teacher.id ? this.teacher.neptunCode : '',
+        [Validators.required, NeptunCodeValidator()],
+      ],
+      name: [
+        this.teacher.id ? this.teacher.name : '',
+        [Validators.required, Validators.maxLength(150)],
+      ],
+      email: [
+        this.teacher.id ? this.teacher.email : '',
+        [Validators.required, Validators.email],
+      ],
+      classification: [
+        this.teacher.id ? this.teacher.classification : '',
+        [Validators.required],
+      ],
     });
   }
 
@@ -40,12 +53,21 @@ export class TeacherEditComponent implements OnInit {
   }
 
   onOk(): void {
-    const teacher: Teacher = this.teacherForm.value;
-    if (teacher.id) {
-      this.store.dispatch(teacherUpdateAction({ teacher }));
+    if (this.teacherForm.valid) {
+      const teacher: Teacher = this.teacherForm.value;
+      if (teacher.id) {
+        this.store.dispatch(teacherUpdateAction({ teacher }));
+      } else {
+        this.store.dispatch(teacherCreateAction({ teacher }));
+      }
+      this.closeAction.emit();
     } else {
-      this.store.dispatch(teacherCreateAction({ teacher }));
+      Object.values(this.teacherForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
     }
-    this.closeAction.emit();
   }
 }
