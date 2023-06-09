@@ -9,3 +9,10 @@ export interface Teacher {
   classification: Classification;
   subjects: Array<Subject>;
 }
+
+export interface TeacherFilter {
+  neptunCode?: string;
+  name?: string;
+  eamil?: string;
+  classification?: Classification;
+}

@@ -4,8 +4,9 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, retry, throwError } from 'rxjs';
-import { Teacher } from '../models/Teacher';
+import { EMPTY, Observable, catchError, map, retry, throwError } from 'rxjs';
+import { Teacher, TeacherFilter } from '../models/Teacher';
+import { queryByFilter } from 'src/helpers/query';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,21 @@ export class TeacherService {
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         return throwError(() => error);
+      })
+    );
+  }
+
+  queryTeachers(teacherFilter: TeacherFilter): Observable<Array<Teacher>> {
+    return this.getTeachers().pipe(
+      retry(2),
+      map((teachers) => {
+        return teachers.filter((teacher) =>
+          queryByFilter(teacher, teacherFilter)
+        );
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError(() => EMPTY);
       })
     );
   }

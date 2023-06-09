@@ -19,11 +19,16 @@ export class TeacherEffects {
   loadTeachers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TeacherActionTypes.teachersRequested),
-      mergeMap(() => {
-        return this.teacherService.getTeachers().pipe(
-          map((teachers) => teachersLoadedAction({ teachers })),
-          catchError(() => EMPTY)
-        );
+      mergeMap((action: any) => {
+        if (!action.teacherFilter) {
+          return this.teacherService.getTeachers().pipe(
+            map((teachers) => teachersLoadedAction({ teachers })),
+            catchError(() => EMPTY)
+          );
+        }
+        return this.teacherService
+          .queryTeachers(action.teacherFilter)
+          .pipe(map((teachers) => teachersLoadedAction({ teachers })));
       })
     );
   });

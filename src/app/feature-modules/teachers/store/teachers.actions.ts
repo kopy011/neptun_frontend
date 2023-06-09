@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Teacher } from 'src/app/models/Teacher';
+import { Teacher, TeacherFilter } from 'src/app/models/Teacher';
 
 export enum TeacherActionTypes {
   teachersRequested = '[Teacher] Teachers Requested',
@@ -11,7 +11,8 @@ export enum TeacherActionTypes {
 }
 
 export const teachersRequestedAction = createAction(
-  TeacherActionTypes.teachersRequested
+  TeacherActionTypes.teachersRequested,
+  props<{ teacherFilter?: TeacherFilter }>()
 );
 
 export const teachersLoadedAction = createAction(

@@ -1,3 +1,27 @@
+<nz-space *ngIf="showFilter">
+  <div *ngFor="let column of columns">
+    <form [formGroup]="filter" *ngIf="column.filter">
+      <nz-input-group [nzSuffix]="inputClearTpl">
+        <input
+          type="text"
+          nz-input
+          [placeholder]="column.title"
+          [formControlName]="column.filter.value"
+        />
+      </nz-input-group>
+      <ng-template #inputClearTpl>
+        <span
+          nz-icon
+          class="ant-input-clear-icon"
+          nzTheme="outline"
+          nzType="close"
+          *ngIf="filter.value[column.filter.value] !== ''"
+          (click)="filter.controls[column.filter.value].setValue('')"
+        ></span
+      ></ng-template>
+    </form>
+  </div>
+</nz-space>
 <nz-table #sortTable [nzData]="items" nzTableLayout="fixed" [nzSize]="size">
   <thead>
     <tr>

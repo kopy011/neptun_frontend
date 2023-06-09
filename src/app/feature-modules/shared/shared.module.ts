@@ -11,6 +11,8 @@ import {
   PlusOutline,
   EditFill,
   DeleteFill,
+  SearchOutline,
+  CloseOutline,
 } from '@ant-design/icons-angular/icons';
 import { SubjectsModalComponent } from './components/subjects-modal/subjects-modal.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -23,6 +25,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 const icons: IconDefinition[] = [
   FileFill,
@@ -30,6 +34,8 @@ const icons: IconDefinition[] = [
   PlusOutline,
   EditFill,
   DeleteFill,
+  SearchOutline,
+  CloseOutline,
 ];
 
 @NgModule({
@@ -49,6 +55,8 @@ const icons: IconDefinition[] = [
     NzInputModule,
     NzTypographyModule,
     NzGridModule,
+    NzDropDownModule,
+    NzSpaceModule,
   ],
   exports: [
     NeptunTableComponent,

@@ -102,7 +102,7 @@ export class SubjectsModalComponent implements OnInit {
         subjects: this.allSubjects,
       };
       this.store.dispatch(teacherUpdateAction({ teacher: newTeacher }));
-      this.store.dispatch(teachersRequestedAction());
+      this.store.dispatch(teachersRequestedAction({}));
     }
     this.okAction.emit();
   }
