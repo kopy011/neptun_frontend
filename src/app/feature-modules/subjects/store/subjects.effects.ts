@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY, catchError, map, mergeMap } from 'rxjs';
 import { SubjectService } from 'src/app/services/subject.service';
-import { SubjectActionTypes, subjectsLoadedAction } from './subjects.actions';
+import {
+  SubjectActionTypes,
+  subjectCreatedAction,
+  subjectUpdatedAction,
+  subjectsLoadedAction,
+} from './subjects.actions';
+import { EMPTY, catchError, map, mergeMap } from 'rxjs';
 
 @Injectable()
 export class SubjectEffects {
@@ -14,36 +19,41 @@ export class SubjectEffects {
   loadSubjects$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(SubjectActionTypes.subjectsRequested),
-      mergeMap(() => {
-        return this.subjectService.getSubjects().pipe(
-          map((subjects) => subjectsLoadedAction({ subjects })),
+      mergeMap((action: any) => {
+        if (!action.subjectFilter) {
+          return this.subjectService.getSubjects().pipe(
+            map((subjects) => subjectsLoadedAction({ subjects })),
+            catchError(() => EMPTY)
+          );
+        }
+        return this.subjectService
+          .querySubjects(action.subjectFilter)
+          .pipe(map((subjects) => subjectsLoadedAction({ subjects })));
+      })
+    );
+  });
+
+  createSubject$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubjectActionTypes.subjectCreate),
+      mergeMap((action: any) => {
+        return this.subjectService.createSubject(action.subject).pipe(
+          map((subject) => subjectCreatedAction({ subject })),
           catchError(() => EMPTY)
         );
       })
     );
   });
 
-  // createTeacher$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(TeacherActionTypes.teacherCreate),
-  //     mergeMap((action: any) => {
-  //       return this.teacherService.createTeacher(action.teacher).pipe(
-  //         map((teacher) => teacherCreatedAction({ teacher })),
-  //         catchError(() => EMPTY)
-  //       );
-  //     })
-  //   );
-  // });
-
-  // updateTeacher$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(TeacherActionTypes.teacherUpdate),
-  //     mergeMap((action: any) => {
-  //       return this.teacherService.updateTeacher(action.teacher).pipe(
-  //         map((teacher) => teacherUpdatedAction({ teacher })),
-  //         catchError(() => EMPTY)
-  //       );
-  //     })
-  //   );
-  // });
+  updateSubject$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubjectActionTypes.subjectUpdate),
+      mergeMap((action: any) => {
+        return this.subjectService.updateSubject(action.subject).pipe(
+          map((subject) => subjectUpdatedAction({ subject })),
+          catchError(() => EMPTY)
+        );
+      })
+    );
+  });
 }

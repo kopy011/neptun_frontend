@@ -6,7 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, catchError, map, retry, throwError } from 'rxjs';
 import { Teacher, TeacherFilter } from '../models/Teacher';
-import { queryByFilter } from 'src/helpers/query';
+import { queryByFilter } from 'src/app/helpers/query';
 
 @Injectable({
   providedIn: 'root',

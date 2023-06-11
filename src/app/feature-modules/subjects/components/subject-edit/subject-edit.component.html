@@ -1,0 +1,98 @@
+<nz-modal
+  *ngIf="subject"
+  [(nzVisible)]="show"
+  [nzTitle]="
+    !subject.id
+      ? 'Tantárgy létrehozása'
+      : subject.code + ' adatainak szerkesztése'
+  "
+  nzClosable="false"
+  nzCentered
+  nzWidth="30%"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [formGroup]="subjectForm"
+      id="subjectForm"
+      (ngSubmit)="onOk()"
+    >
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott név nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="name"
+              placeholder="Név"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott kód nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="code"
+              placeholder="Kód"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott kredit nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="number"
+              nz-input
+              formControlName="credit"
+              placeholder="Kredit"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott tanszék nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="department"
+              placeholder="Tanszék"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Szemeszter megadása kötelező!">
+          <nz-input-group>
+            <nz-select
+              nzPlaceHolder="Szemeszter"
+              formControlName="semester"
+              [compareWith]="compareSemesters"
+            >
+              <nz-option
+                *ngFor="let semester of semesters"
+                [nzValue]="semester"
+                [nzLabel]="semester.name"
+              ></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="onCancel()">Mégse</button>
+    <button
+      nz-button
+      nzType="primary"
+      form="subjectForm"
+      [disabled]="!subjectForm.valid"
+    >
+      Mentés
+    </button>
+  </ng-template>
+</nz-modal>

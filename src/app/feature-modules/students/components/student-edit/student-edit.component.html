@@ -1,0 +1,82 @@
+<nz-modal
+  *ngIf="student"
+  [(nzVisible)]="show"
+  [nzTitle]="
+    !student.id
+      ? 'Hallgató létrehozása'
+      : student.name + ' adatainak szerkesztése'
+  "
+  nzClosable="false"
+  nzCentered
+  nzWidth="30%"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [formGroup]="studentForm"
+      id="studentForm"
+      (ngSubmit)="onOk()"
+    >
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott neptun kód nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="neptunCode"
+              placeholder="Neptun kód"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott név nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="name"
+              placeholder="Név"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott email nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="email"
+              placeholder="Email cím"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A szak megadása kötelező!">
+          <nz-input-group>
+            <nz-select nzPlaceHolder="Szak" formControlName="major">
+              <nz-option
+                *ngFor="let major of majors"
+                [nzValue]="major"
+                [nzLabel]="major"
+              ></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="onCancel()">Mégse</button>
+    <button
+      nz-button
+      nzType="primary"
+      form="studentForm"
+      [disabled]="!studentForm.valid"
+    >
+      Mentés
+    </button>
+  </ng-template>
+</nz-modal>

@@ -6,7 +6,6 @@ import { Classification } from 'src/app/models/enums/Classification';
 import {
   teacherCreateAction,
   teacherUpdateAction,
-  teacherUpdatedAction,
 } from '../../store/teachers.actions';
 import { NeptunCodeValidator } from 'src/app/validators/neptunCode.validator';
 

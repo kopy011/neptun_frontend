@@ -1,0 +1,65 @@
+<nz-modal
+  *ngIf="semester"
+  [(nzVisible)]="show"
+  [nzTitle]="
+    !semester.id
+      ? 'Félév létrehozása'
+      : semester.name + ' félév adatainak szerkesztése'
+  "
+  nzClosable="false"
+  nzCentered
+  nzWidth="30%"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [formGroup]="semesterForm"
+      id="semesterForm"
+      (ngSubmit)="onOk()"
+    >
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott név nem megfelelő!">
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              formControlName="name"
+              placeholder="Név"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott kezdő dátum nem megfelelő!">
+          <nz-input-group>
+            <nz-date-picker
+              formControlName="startDate"
+              nzPlaceHolder="Kezdő dátum"
+            ></nz-date-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="A megadott vég dátum nem megfelelő!">
+          <nz-input-group>
+            <nz-date-picker
+              formControlName="endDate"
+              nzPlaceHolder="Vég dátum"
+            ></nz-date-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+  <ng-template [nzModalFooter]>
+    <button nz-button nzType="default" (click)="onCancel()">Mégse</button>
+    <button
+      nz-button
+      nzType="primary"
+      form="semesterForm"
+      [disabled]="!semesterForm.valid"
+    >
+      Mentés
+    </button>
+  </ng-template>
+</nz-modal>

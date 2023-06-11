@@ -27,6 +27,8 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 const icons: IconDefinition[] = [
   FileFill,
@@ -57,6 +59,8 @@ const icons: IconDefinition[] = [
     NzGridModule,
     NzDropDownModule,
     NzSpaceModule,
+    NzPopconfirmModule,
+    NzDatePickerModule,
   ],
   exports: [
     NeptunTableComponent,
@@ -74,6 +78,7 @@ const icons: IconDefinition[] = [
     NzSelectModule,
     NzTypographyModule,
     NzGridModule,
+    NzDatePickerModule,
   ],
 })
 export class SharedModule {}

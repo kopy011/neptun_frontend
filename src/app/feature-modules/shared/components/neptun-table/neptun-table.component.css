@@ -5,3 +5,7 @@
 form {
   margin: 10px;
 }
+
+nz-select {
+  width: 25vh;
+}

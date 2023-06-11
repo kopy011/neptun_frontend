@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TeachersRoutingModule } from './teachers-routing.module';
 import { TeacherLayoutComponent } from './components/teacher-layout/teacher-layout.component';
 import { StoreModule } from '@ngrx/store';
-import { teachersFeatureKey, teachersRecucer } from './store/teachers.reducer';
+import { teachersFeatureKey, teachersReducer } from './store/teachers.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { TeacherEffects } from './store/teachers.effects';
 import { SharedModule } from '../shared/shared.module';
@@ -16,7 +16,7 @@ import { SubjectsModule } from '../subjects/subjects.module';
   imports: [
     CommonModule,
     TeachersRoutingModule,
-    StoreModule.forFeature(teachersFeatureKey, teachersRecucer),
+    StoreModule.forFeature(teachersFeatureKey, teachersReducer),
     EffectsModule.forFeature([TeacherEffects]),
     SharedModule,
     SubjectsModule,

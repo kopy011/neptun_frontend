@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngrx/store';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Column } from 'src/app/models/components/Column';
@@ -13,13 +20,14 @@ import { TableActions } from 'src/app/models/enums/TableActions';
   templateUrl: './neptun-table.component.html',
   styleUrls: ['./neptun-table.component.css'],
 })
-export class NeptunTableComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
+export class NeptunTableComponent implements OnInit, OnChanges {
+  constructor(private formBuilder: FormBuilder) {}
 
   @Input() columns!: Array<Column>;
   @Input() items!: Array<any>;
   @Input() size: NzTableSize = 'middle';
   @Input() actions: Array<TableActions> = [];
+  @Input() shouldResetFilter!: boolean;
 
   @Output() subjectsAction = new EventEmitter();
   @Output() editAction = new EventEmitter();
@@ -40,11 +48,17 @@ export class NeptunTableComponent implements OnInit {
       });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['shouldResetFilter']) {
+      this.resetFilter();
+    }
+  }
+
   resetFilter(): void {
-    const filterObject: Record<any, string> = {};
+    const filterObject: Record<any, any> = {};
     this.columns.forEach((column) => {
       if (column.filter) {
-        filterObject[column.filter.value] = '';
+        filterObject[column.filter.value] = undefined;
       }
     });
     this.filter = this.formBuilder.group(filterObject);

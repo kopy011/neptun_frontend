@@ -1,0 +1,34 @@
+<div nz-row nzJustify="space-between">
+  <div nz-col><h1 nz-typography>Oktatók</h1></div>
+  <div nz-col id="new-button-col">
+    <button
+      nz-button
+      nz-tooltip
+      id="new-button"
+      nzType="primary"
+      nzShape="circle"
+      nzTooltipTitle="Új felvétele"
+      nzTooltipPlacement="bottom"
+      (click)="onNewSemesterAction()"
+    >
+      <span nz-icon nzType="plus" nzTheme="outline"></span>
+    </button>
+  </div>
+</div>
+
+<app-neptun-table
+  *ngIf="semesters"
+  [items]="semesters"
+  [columns]="semesterColumns"
+  [actions]="tableActions"
+  (editAction)="onEditAction($event)"
+  (filterEvent)="onFilter($event)"
+>
+</app-neptun-table>
+<app-semester-edit
+  *ngIf="editedSemester"
+  [semester]="editedSemester"
+  [show]="showEditModal"
+  (closeAction)="onEditClose()"
+>
+</app-semester-edit>

@@ -9,3 +9,10 @@ export interface Student {
   major: Major;
   subjects: Array<Subject>;
 }
+
+export interface StudentFilter {
+  neptunCode?: string;
+  name?: string;
+  email?: string;
+  major?: Major;
+}

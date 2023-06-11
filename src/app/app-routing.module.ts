@@ -16,6 +16,20 @@ const routes: Routes = [
         (m) => m.SubjectsModule
       ),
   },
+  {
+    path: 'students',
+    loadChildren: () =>
+      import('./feature-modules/students/students.module').then(
+        (m) => m.StudentsModule
+      ),
+  },
+  {
+    path: 'semesters',
+    loadChildren: () =>
+      import('./feature-modules/semesters/semesters.module').then(
+        (m) => m.SemestersModule
+      ),
+  },
 ];
 
 @NgModule({

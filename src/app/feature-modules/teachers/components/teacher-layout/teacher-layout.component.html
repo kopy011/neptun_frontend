@@ -30,7 +30,7 @@
   *ngIf="editedTeacher"
   [entity]="editedTeacher"
   [show]="showSubjectsModal"
-  (okAction)="onSubjectsOk()"
+  (okAction)="onSubjectsOk($event)"
 ></app-subjects-modal>
 <app-teacher-edit
   *ngIf="editedTeacher"

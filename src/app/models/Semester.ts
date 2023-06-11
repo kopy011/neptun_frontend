@@ -4,3 +4,7 @@ export interface Semester {
   startDate: Date;
   endDate: Date;
 }
+
+export interface SemesterFilter {
+  name?: string;
+}

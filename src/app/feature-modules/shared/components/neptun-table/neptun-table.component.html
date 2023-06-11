@@ -1,24 +1,77 @@
 <nz-space *ngIf="showFilter">
   <div *ngFor="let column of columns">
-    <form [formGroup]="filter" *ngIf="column.filter">
-      <nz-input-group [nzSuffix]="inputClearTpl">
-        <input
-          type="text"
-          nz-input
-          [placeholder]="column.title"
+    <form
+      [formGroup]="filter"
+      *ngIf="column.filter"
+      [ngSwitch]="column.filter.type"
+    >
+      <div *ngSwitchCase="'text'">
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input
+            type="text"
+            nz-input
+            [placeholder]="column.title"
+            [formControlName]="column.filter.value"
+          />
+        </nz-input-group>
+        <ng-template #inputClearTpl>
+          <span
+            nz-icon
+            class="ant-input-clear-icon"
+            nzTheme="outline"
+            nzType="close"
+            *ngIf="filter.value[column.filter.value] !== ''"
+            (click)="filter.controls[column.filter.value].setValue(undefined)"
+          ></span>
+        </ng-template>
+      </div>
+
+      <div *ngSwitchCase="'number'">
+        <nz-input-group [nzSuffix]="inputClearTpl">
+          <input
+            type="number"
+            nz-input
+            [placeholder]="column.title"
+            [formControlName]="column.filter.value"
+          />
+        </nz-input-group>
+        <ng-template #inputClearTpl>
+          <span
+            nz-icon
+            class="ant-input-clear-icon"
+            nzTheme="outline"
+            nzType="close"
+            *ngIf="filter.value[column.filter.value] !== ''"
+            (click)="filter.controls[column.filter.value].setValue(undefined)"
+          ></span>
+        </ng-template>
+      </div>
+
+      <div *ngSwitchCase="'select'">
+        <nz-select
+          *ngIf="column.filter.options"
+          nzAllowClear
+          [nzClearIcon]="clearIcon"
           [formControlName]="column.filter.value"
-        />
-      </nz-input-group>
-      <ng-template #inputClearTpl>
-        <span
-          nz-icon
-          class="ant-input-clear-icon"
-          nzTheme="outline"
-          nzType="close"
-          *ngIf="filter.value[column.filter.value] !== ''"
-          (click)="filter.controls[column.filter.value].setValue('')"
-        ></span
-      ></ng-template>
+          [nzPlaceHolder]="column.title"
+        >
+          <nz-option
+            *ngFor="let option of column.filter.options"
+            [nzLabel]="option.label"
+            [nzValue]="option.value"
+          ></nz-option>
+        </nz-select>
+        <ng-template #clearIcon>
+          <span
+            nz-icon
+            class="ant-input-clear-icon"
+            nzTheme="outline"
+            nzType="close"
+          ></span>
+        </ng-template>
+      </div>
+
+      <div *ngSwitchDefault></div>
     </form>
   </div>
 </nz-space>
@@ -76,9 +129,12 @@
           nz-tooltip
           nzType="primary"
           nzShape="circle"
-          (click)="onDelete(item)"
           nzTooltipTitle="Törlés"
           nzTooltipPlacement="bottom"
+          nz-popconfirm
+          nzPopconfirmTitle="Biztosan törölni szeretné?"
+          nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="onDelete(item)"
         >
           <span nz-icon nzType="delete" nzTheme="fill"></span>
         </button>

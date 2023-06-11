@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Subject } from 'src/app/models/Subject';
+import { Subject, SubjectFilter } from 'src/app/models/Subject';
 
 export enum SubjectActionTypes {
   subjectsRequested = '[Subject] Subjects Requested',
@@ -11,7 +11,8 @@ export enum SubjectActionTypes {
 }
 
 export const subjectsRequestedAction = createAction(
-  SubjectActionTypes.subjectsRequested
+  SubjectActionTypes.subjectsRequested,
+  props<{ subjectFilter?: SubjectFilter }>()
 );
 
 export const subjectsLoadedAction = createAction(

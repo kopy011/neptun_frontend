@@ -8,3 +8,11 @@ export interface Subject {
   department: string;
   semester: Semester;
 }
+
+export interface SubjectFilter {
+  name?: string;
+  code?: string;
+  credit?: number;
+  department?: string;
+  'semester.name'?: string;
+}

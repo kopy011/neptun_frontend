@@ -16,7 +16,7 @@ export const initialState: TeachersFeatureState = {
   teachers: [],
 };
 
-export const teachersRecucer = createReducer(
+export const teachersReducer = createReducer(
   initialState,
   on(teachersLoadedAction, (state, { teachers }) => {
     return { ...state, teachers };

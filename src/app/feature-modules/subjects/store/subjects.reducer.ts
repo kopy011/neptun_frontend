@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { subjectsLoadedAction } from './subjects.actions';
 import { Subject } from 'src/app/models/Subject';
+import {
+  subjectCreatedAction,
+  subjectUpdatedAction,
+  subjectsLoadedAction,
+} from './subjects.actions';
 
 export const subjectsFeatureKey = 'subjectsFeature';
 
@@ -16,12 +20,12 @@ export const subjectsReducer = createReducer(
   initialState,
   on(subjectsLoadedAction, (state, { subjects }) => {
     return { ...state, subjects };
+  }),
+  on(subjectCreatedAction, (state, { subject }) => {
+    const newSubjects = [...state.subjects, subject];
+    return { ...state, subjects: newSubjects };
+  }),
+  on(subjectUpdatedAction, (state) => {
+    return { ...state };
   })
-  // on(teacherCreatedAction, (state, { teacher }) => {
-  //   const newTeachers = [...state.teachers, teacher];
-  //   return { ...state, teachers: newTeachers };
-  // }),
-  // on(teacherUpdatedAction, (state) => {
-  //   return { ...state };
-  // })
 );

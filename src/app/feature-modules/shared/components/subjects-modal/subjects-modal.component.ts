@@ -75,34 +75,37 @@ export class SubjectsModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.dirty = false;
-    this.store.dispatch(subjectsRequestedAction());
-
-    this.subjects$.pipe(untilDestroyed(this)).subscribe((subjects) => {
-      this.allFreeSubjects = subjects.filter(
-        (subject) =>
-          !this.allSubjects
-            .map((subject: Subject) => subject.id)
-            .includes(subject.id)
-      );
-    });
+    this.store.dispatch(subjectsRequestedAction({}));
 
     this.allSubjects = this.entity.subjects;
-    this.allSubjects.forEach((subject: Subject) =>
-      !this.semesters.some((semester: Semester) => semester.id === subject.id)
-        ? this.semesters.push(subject.semester)
-        : undefined
-    );
-    this.filteredSubjects = this.allSubjects;
+
+    this.subjects$.pipe(untilDestroyed(this)).subscribe((subjects) => {
+      this.allSubjects.forEach((subject: Subject) => {
+        this.allFreeSubjects = subjects.filter(
+          (subject) =>
+            !this.allSubjects
+              .map((subject: Subject) => subject.id)
+              .includes(subject.id)
+        );
+        if (
+          !this.semesters
+            .map((semester) => semester.id)
+            .includes(subject.semester.id)
+        ) {
+          this.semesters.push(subject.semester);
+        }
+      });
+      this.filteredSubjects = this.allSubjects;
+    });
   }
 
   onOk(): void {
     if (this.dirty) {
-      const newTeacher: Teacher = {
+      const newEntity = {
         ...this.entity,
         subjects: this.allSubjects,
       };
-      this.store.dispatch(teacherUpdateAction({ teacher: newTeacher }));
-      this.store.dispatch(teachersRequestedAction({}));
+      this.okAction.emit(newEntity);
     }
     this.okAction.emit();
   }
@@ -113,9 +116,9 @@ export class SubjectsModalComponent implements OnInit {
 
   onSemesterChanged(selectedSemester: string | number): void {
     if (selectedSemester === 'all') {
-      this.filteredSubjects = this.entity.subjects;
+      this.filteredSubjects = this.allSubjects;
     } else {
-      this.filteredSubjects = this.entity.subjects.filter(
+      this.filteredSubjects = this.allSubjects.filter(
         (subject: Subject) => subject.semester.id === selectedSemester
       );
     }
@@ -132,7 +135,7 @@ export class SubjectsModalComponent implements OnInit {
     this.selectedSemester = 'all';
     this.filteredSubjects = this.allSubjects;
     this.selectedSubjects = [];
-    this.store.dispatch(subjectsRequestedAction());
+    this.store.dispatch(subjectsRequestedAction({}));
   }
 
   onDelete(subject: Subject): void {
@@ -143,5 +146,6 @@ export class SubjectsModalComponent implements OnInit {
     this.allSubjects = newAllSubjects;
     this.selectedSemester = 'all';
     this.filteredSubjects = this.allSubjects;
+    this.store.dispatch(subjectsRequestedAction({}));
   }
 }
