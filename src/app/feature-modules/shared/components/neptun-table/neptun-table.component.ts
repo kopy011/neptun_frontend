@@ -9,10 +9,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store, select } from '@ngrx/store';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { Column } from 'src/app/models/components/Column';
 import { TableActions } from 'src/app/models/enums/TableActions';
+import { isAdmin } from '../../store/shared.selectors';
 
 @UntilDestroy()
 @Component({
@@ -21,7 +23,7 @@ import { TableActions } from 'src/app/models/enums/TableActions';
   styleUrls: ['./neptun-table.component.css'],
 })
 export class NeptunTableComponent implements OnInit, OnChanges {
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   @Input() columns!: Array<Column>;
   @Input() items!: Array<any>;
@@ -37,15 +39,22 @@ export class NeptunTableComponent implements OnInit, OnChanges {
   filter!: FormGroup;
   showFilter = false;
 
+  isAdmin$ = this.store.pipe(select(isAdmin));
+  isAdmin = false;
+
   ngOnInit(): void {
     this.showFilter = this.columns.some((column) => column.filter);
     this.resetFilter();
 
     this.filter.valueChanges
-      .pipe(untilDestroyed(this), debounceTime(300), distinctUntilChanged())
+      .pipe(untilDestroyed(this), debounceTime(300))
       .subscribe((value: any) => {
         this.filterEvent.emit(value);
       });
+
+    this.isAdmin$
+      .pipe(untilDestroyed(this))
+      .subscribe((isAdmin) => (this.isAdmin = isAdmin));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

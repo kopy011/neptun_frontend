@@ -7,6 +7,7 @@ import { Column } from 'src/app/models/components/Column';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TableActions } from 'src/app/models/enums/TableActions';
 import { distinctUntilChanged } from 'rxjs';
+import { isAdmin } from 'src/app/feature-modules/shared/store/shared.selectors';
 
 @UntilDestroy()
 @Component({
@@ -55,16 +56,21 @@ export class SemesterLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(semestersRequestedAction({}));
 
-    this.semesters$
-      .pipe(untilDestroyed(this), distinctUntilChanged())
-      .subscribe((semesters) => {
-        this.semesters = semesters;
-      });
+    this.semesters$.pipe(untilDestroyed(this)).subscribe((semesters) => {
+      this.semesters = semesters;
+    });
+
+    this.isAdmin$
+      .pipe(untilDestroyed(this))
+      .subscribe((isAdmin) => (this.isAdmin = isAdmin));
   }
 
   semesters$ = this.store.pipe(select(selectSemesters));
   semesters?: Array<Semester>;
   editedSemester?: Semester;
+
+  isAdmin$ = this.store.pipe(select(isAdmin));
+  isAdmin = false;
 
   tableActions: Array<TableActions> = ['edit'];
 

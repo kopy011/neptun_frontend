@@ -10,6 +10,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { selectSemesters } from 'src/app/feature-modules/semesters/store/semesters.selectors';
 import { Semester } from 'src/app/models/Semester';
 import { semestersRequestedAction } from 'src/app/feature-modules/semesters/store/semesters.actions';
+import { isAdmin } from 'src/app/feature-modules/shared/store/shared.selectors';
 
 @UntilDestroy()
 @Component({
@@ -23,6 +24,9 @@ export class SubjectLayoutComponent implements OnInit {
   subjects$ = this.store.pipe(select(selectSubjects));
   subjects?: Array<Subject>;
   editedSubject?: Subject;
+
+  isAdmin$ = this.store.pipe(select(isAdmin));
+  isAdmin = false;
 
   semesters$ = this.store.pipe(select(selectSemesters));
   semesters: Array<Semester> = [];
@@ -90,21 +94,21 @@ export class SubjectLayoutComponent implements OnInit {
     this.store.dispatch(subjectsRequestedAction({}));
     this.store.dispatch(semestersRequestedAction({}));
 
-    this.subjects$
-      .pipe(untilDestroyed(this), distinctUntilChanged())
-      .subscribe((subjects) => {
-        this.subjects = subjects;
-      });
+    this.subjects$.pipe(untilDestroyed(this)).subscribe((subjects) => {
+      this.subjects = subjects;
+    });
 
-    this.semesters$
-      .pipe(untilDestroyed(this), distinctUntilChanged())
-      .subscribe((semesters) => {
-        this.semesters = semesters;
-        this.subjectColumns[4].filter!.options = semesters.map((semester) => ({
-          label: semester.name,
-          value: semester.name,
-        }));
-      });
+    this.semesters$.pipe(untilDestroyed(this)).subscribe((semesters) => {
+      this.semesters = semesters;
+      this.subjectColumns[4].filter!.options = semesters.map((semester) => ({
+        label: semester.name,
+        value: semester.name,
+      }));
+    });
+
+    this.isAdmin$
+      .pipe(untilDestroyed(this))
+      .subscribe((isAdmin) => (this.isAdmin = isAdmin));
   }
 
   onNewSubjectAction(): void {

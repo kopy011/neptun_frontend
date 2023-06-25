@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, catchError, map, retry, throwError } from 'rxjs';
+import { Observable, catchError, map, retry, throwError } from 'rxjs';
 import { User } from '../models/User';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { decodeJwtTokenAction } from '../feature-modules/shared/store/shared.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,7 @@ export class UserService {
       'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2ODcxODQyMTUsImV4cCI6MTcxODcyMDIxNSwiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoiU1RVREVOVF9VU0VSIiwicm9sZSI6IlN0dWRlbnQiLCJpZCI6IjMiLCJlbWFpbCI6InNtYXJ0QGJvaS5jb20ifQ.0i7XM7wroTG4Bgt4S4ElIhx_odPS5Hq1tRBYJRL5EkE',
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   login(username: string, password: string): Observable<string | undefined> {
     return this.http.get<Array<User>>(this.userUrl).pipe(
@@ -31,6 +33,10 @@ export class UserService {
         if (!user) {
           return undefined;
         }
+
+        this.store.dispatch(
+          decodeJwtTokenAction({ jwtToken: this.fakeJwtTokens[user.username] })
+        );
 
         return this.fakeJwtTokens[user.username];
       }),

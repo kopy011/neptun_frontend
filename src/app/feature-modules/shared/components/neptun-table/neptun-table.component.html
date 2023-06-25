@@ -112,7 +112,7 @@
           <span nz-icon nzType="file" nzTheme="fill"></span>
         </button>
         <button
-          *ngIf="actions.includes('edit')"
+          *ngIf="actions.includes('edit') && isAdmin"
           nz-button
           nz-tooltip
           nzType="primary"
@@ -124,7 +124,7 @@
           <span nz-icon nzType="edit" nzTheme="fill"></span>
         </button>
         <button
-          *ngIf="actions.includes('delete')"
+          *ngIf="actions.includes('delete') && isAdmin"
           nz-button
           nz-tooltip
           nzType="primary"

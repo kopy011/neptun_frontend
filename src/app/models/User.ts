@@ -10,3 +10,10 @@ export interface User {
   teacherId?: number;
   studentId?: number;
 }
+
+export interface UserInfo {
+  id: number;
+  username: string;
+  roles?: Array<Role>;
+  role?: Role;
+}

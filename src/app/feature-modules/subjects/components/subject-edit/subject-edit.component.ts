@@ -18,7 +18,6 @@ export class SubjectEditComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    console.log(this.subject);
     this.subjectForm = this.formBuilder.group({
       id: [this.subject.id ? this.subject.id : undefined],
       name: [

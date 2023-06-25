@@ -1,6 +1,9 @@
 import { AfterViewChecked, Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { isLoggedIn } from './feature-modules/shared/store/shared.selectors';
+import {
+  isLoggedIn,
+  selectUser$,
+} from './feature-modules/shared/store/shared.selectors';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { logoutAction } from './feature-modules/shared/store/shared.actions';
 import { Router } from '@angular/router';

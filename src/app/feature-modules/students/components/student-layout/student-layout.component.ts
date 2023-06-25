@@ -11,6 +11,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TableActions } from 'src/app/models/enums/TableActions';
 import { distinctUntilChanged } from 'rxjs';
 import { Major } from 'src/app/models/enums/Major';
+import { isAdmin } from 'src/app/feature-modules/shared/store/shared.selectors';
 
 @UntilDestroy()
 @Component({
@@ -68,16 +69,21 @@ export class StudentLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(studentsRequestedAction({}));
 
-    this.students$
-      .pipe(untilDestroyed(this), distinctUntilChanged())
-      .subscribe((students) => {
-        this.students = students;
-      });
+    this.students$.pipe(untilDestroyed(this)).subscribe((students) => {
+      this.students = students;
+    });
+
+    this.isAdmin$
+      .pipe(untilDestroyed(this))
+      .subscribe((isAdmin) => (this.isAdmin = isAdmin));
   }
 
   students$ = this.store.pipe(select(selectStudents));
   students?: Array<Student>;
   editedStudent?: Student;
+
+  isAdmin$ = this.store.pipe(select(isAdmin));
+  isAdmin = false;
 
   tableActions: Array<TableActions> = ['edit', 'subjects'];
 

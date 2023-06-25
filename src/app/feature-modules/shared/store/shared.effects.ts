@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, act, createEffect, ofType } from '@ngrx/effects';
 import { UserService } from 'src/app/services/user.service';
 import {
   SharedActionTypes,
+  jwtTokenDecodedAction,
   loggedInAction,
   loggedOutAction,
 } from './shared.actions';
-import { EMPTY, catchError, map, mergeMap, of } from 'rxjs';
+import { EMPTY, catchError, map, mergeMap } from 'rxjs';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class SharedEffects {
@@ -43,6 +45,15 @@ export class SharedEffects {
       ofType(SharedActionTypes.logout),
       map(() => {
         return loggedOutAction();
+      })
+    );
+  });
+
+  decodeJwtToken$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SharedActionTypes.decodeJwtToken),
+      map((action: any) => {
+        return jwtTokenDecodedAction({ userInfo: jwt_decode(action.jwtToken) });
       })
     );
   });

@@ -2,6 +2,7 @@
   <div nz-col><h1 nz-typography>Hallgatók</h1></div>
   <div nz-col id="new-button-col">
     <button
+      *ngIf="isAdmin"
       nz-button
       nz-tooltip
       id="new-button"

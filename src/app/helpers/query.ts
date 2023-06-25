@@ -31,7 +31,6 @@ export function queryByFilter(
           } else {
             const nestedFilter: Record<string, any> = {};
             nestedFilter[key.split('.')[1]] = filter[key];
-            console.log(nestedFilter);
             return queryByFilter(entity[key.split('.')[0]], nestedFilter);
           }
           break;
