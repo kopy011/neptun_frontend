@@ -13,6 +13,9 @@ import {
   DeleteFill,
   SearchOutline,
   CloseOutline,
+  UserOutline,
+  LockOutline,
+  LogoutOutline,
 } from '@ant-design/icons-angular/icons';
 import { SubjectsModalComponent } from './components/subjects-modal/subjects-modal.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -29,6 +32,11 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { sharedFeatureKey, sharedReducer } from './store/shared.reducer';
+import { SharedEffects } from './store/shared.effects';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 const icons: IconDefinition[] = [
   FileFill,
@@ -38,6 +46,9 @@ const icons: IconDefinition[] = [
   DeleteFill,
   SearchOutline,
   CloseOutline,
+  UserOutline,
+  LockOutline,
+  LogoutOutline,
 ];
 
 @NgModule({
@@ -61,6 +72,9 @@ const icons: IconDefinition[] = [
     NzSpaceModule,
     NzPopconfirmModule,
     NzDatePickerModule,
+    StoreModule.forFeature(sharedFeatureKey, sharedReducer),
+    EffectsModule.forFeature([SharedEffects]),
+    NzDividerModule,
   ],
   exports: [
     NeptunTableComponent,
@@ -79,6 +93,7 @@ const icons: IconDefinition[] = [
     NzTypographyModule,
     NzGridModule,
     NzDatePickerModule,
+    NzDividerModule,
   ],
 })
 export class SharedModule {}

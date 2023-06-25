@@ -7,6 +7,8 @@ import { Subject } from '../models/Subject';
 import { Classification } from '../models/enums/Classification';
 import { Student } from '../models/Student';
 import { Major } from '../models/enums/Major';
+import { User } from '../models/User';
+import { Role } from '../models/enums/Role';
 
 @Injectable({
   providedIn: 'root',
@@ -55,14 +57,43 @@ export class DbService implements InMemoryDbService {
     semester: this.sem_2022_2203_1,
   };
 
+  ADMIN_USER: User = {
+    id: 1,
+    username: 'ADMIN_USER',
+    birthDate: new Date('1995-12-03'),
+    department: 'ismeretlen',
+    password: 'qwedsa123',
+    roles: [Role.ADMIN],
+  };
+
+  TEACHER_USER: User = {
+    id: 2,
+    username: 'TEACHER_USER',
+    birthDate: new Date('1980-15-20'),
+    department: 'Matematika tanszék',
+    password: 'qwedsa123',
+    roles: [Role.TEACHER],
+    teacherId: 1,
+  };
+
+  STUDENT_USER: User = {
+    id: 3,
+    username: 'STUDENT_USER',
+    birthDate: new Date('2000-10-11'),
+    department: 'ismeretlen',
+    password: 'qwedsa123',
+    roles: [Role.STUDENT],
+    studentId: 1,
+  };
+
   createDb() {
     return {
       teachers: [
         {
           id: 1,
-          neptunCode: 'SZALKAI',
-          name: 'Dr. Szalkai',
-          email: 'szalkai@mik.uni-pannon.hu',
+          neptunCode: 'MATEKT',
+          name: 'Dr. Matektanár',
+          email: 'matek@mik.uni-pannon.hu',
           classification: Classification.DOCENS,
           subjects: [this.DI_MAT, this.ILA],
         },
@@ -98,6 +129,11 @@ export class DbService implements InMemoryDbService {
         this.sem_2022_2203_1,
         this.sem_2022_2203_2,
       ] as Array<Semester>,
+      users: [
+        this.ADMIN_USER,
+        this.TEACHER_USER,
+        this.STUDENT_USER,
+      ] as Array<User>,
     };
   }
 }

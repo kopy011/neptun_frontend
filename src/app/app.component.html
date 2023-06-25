@@ -1,5 +1,5 @@
 <nz-layout>
-  <nz-header>
+  <nz-header *ngIf="isLoggedIn">
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
       <li nz-menu-item>
         <a routerLink=""><span nz-icon nzType="home" nzTheme="fill"></span></a>
@@ -15,6 +15,16 @@
       </li>
       <li nz-menu-item>
         <a routerLink="/semesters"><strong>Félévek</strong></a>
+      </li>
+      <li nz-menu-item>
+        <a
+          (click)="logout()"
+          nz-tooltip
+          nzTooltipTitle="Kijelentkezés"
+          nzTooltipPlacement="bottom"
+        >
+          <span nz-icon nzType="logout" nzTheme="outline"></span>
+        </a>
       </li>
     </ul>
   </nz-header>
