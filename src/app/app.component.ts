@@ -18,7 +18,6 @@ export class AppComponent implements AfterViewChecked {
     this.isLoggendIn$
       .pipe(untilDestroyed(this))
       .subscribe((isLoggedIn) => (this.isLoggedIn = isLoggedIn));
-    //TODO display nav or not wether user is logged in or not
   }
 
   logout(): void {

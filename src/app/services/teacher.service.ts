@@ -4,9 +4,18 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, catchError, map, retry, throwError } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  catchError,
+  map,
+  retry,
+  shareReplay,
+  throwError,
+} from 'rxjs';
 import { Teacher, TeacherFilter } from '../models/Teacher';
 import { queryByFilter } from 'src/app/helpers/query';
+import { CACHE_SIZE } from '../models/Constants';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +25,17 @@ export class TeacherService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+  private cache$?: Observable<Array<Teacher>>;
 
   constructor(private http: HttpClient) {}
+
+  get teachers() {
+    if (!this.cache$) {
+      this.cache$ = this.getTeachers().pipe(shareReplay(CACHE_SIZE));
+    }
+
+    return this.cache$;
+  }
 
   getTeachers(): Observable<Array<Teacher>> {
     return this.http.get<Array<Teacher>>(this.teacherUrl).pipe(
@@ -30,7 +48,7 @@ export class TeacherService {
   }
 
   queryTeachers(teacherFilter: TeacherFilter): Observable<Array<Teacher>> {
-    return this.getTeachers().pipe(
+    return this.teachers.pipe(
       retry(2),
       map((teachers) => {
         return teachers.filter((teacher) =>
@@ -45,10 +63,12 @@ export class TeacherService {
   }
 
   createTeacher(teacher: Teacher): Observable<Teacher> {
+    this.cache$ = undefined;
     return this.http.post<Teacher>(this.teacherUrl, teacher);
   }
 
   updateTeacher(teacher: Teacher): Observable<Teacher> {
+    this.cache$ = undefined;
     return this.http.put<Teacher>(this.teacherUrl, teacher, this.httpOptions);
   }
 }

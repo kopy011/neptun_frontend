@@ -21,7 +21,7 @@ export class TeacherEffects {
       ofType(TeacherActionTypes.teachersRequested),
       mergeMap((action: any) => {
         if (!action.teacherFilter) {
-          return this.teacherService.getTeachers().pipe(
+          return this.teacherService.teachers.pipe(
             map((teachers) => teachersLoadedAction({ teachers })),
             catchError(() => EMPTY)
           );

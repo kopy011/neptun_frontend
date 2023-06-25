@@ -5,8 +5,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable, firstValueFrom, mergeMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable, mergeMap } from 'rxjs';
 import { selectJwtToken } from '../feature-modules/shared/store/shared.selectors';
 
 @Injectable()
@@ -17,12 +17,15 @@ export class AuthorazitaionHeaderInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    //todo await
+
     return this.store.select(selectJwtToken).pipe(
       mergeMap((jwtToken) => {
-        const authReq = req.clone({
-          headers: req.headers.set('Authorization', jwtToken ?? ''),
-        });
-        console.log(jwtToken);
+        const authReq = jwtToken
+          ? req.clone({
+              headers: req.headers.set('Authorization', jwtToken),
+            })
+          : req;
         return next.handle(authReq);
       })
     );

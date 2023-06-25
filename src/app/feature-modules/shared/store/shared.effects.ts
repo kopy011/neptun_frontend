@@ -26,7 +26,7 @@ export class SharedEffects {
             if (token) {
               //todo szép alert
               alert('Sikeres bejelentkezés!');
-              this.router.navigate(['']);
+              this.router.navigate(['home']);
             } else {
               alert('Sikertelen bejelentkezés');
             }

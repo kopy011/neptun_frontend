@@ -21,7 +21,7 @@ export class SubjectEffects {
       ofType(SubjectActionTypes.subjectsRequested),
       mergeMap((action: any) => {
         if (!action.subjectFilter) {
-          return this.subjectService.getSubjects().pipe(
+          return this.subjectService.subjects.pipe(
             map((subjects) => subjectsLoadedAction({ subjects })),
             catchError(() => EMPTY)
           );

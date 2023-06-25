@@ -21,7 +21,7 @@ export class StudentEffects {
       ofType(StudentActionTypes.studentsRequested),
       mergeMap((action: any) => {
         if (!action.studentFilter) {
-          return this.studentService.getStudents().pipe(
+          return this.studentService.students.pipe(
             map((students) => studentsLoadedAction({ students })),
             catchError(() => EMPTY)
           );
